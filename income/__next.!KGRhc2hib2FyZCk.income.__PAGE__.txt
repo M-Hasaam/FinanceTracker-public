@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[57248,["/FinanceTracker-public/_next/static/chunks/b138b013a1e60b8e.js","/FinanceTracker-public/_next/static/chunks/98af650e5a61479f.js","/FinanceTracker-public/_next/static/chunks/fc85ffc37195d73b.js","/FinanceTracker-public/_next/static/chunks/f38c31c525dd205d.js","/FinanceTracker-public/_next/static/chunks/32001c968b8cb8b3.js","/FinanceTracker-public/_next/static/chunks/5f4bcffa1932892a.js","/FinanceTracker-public/_next/static/chunks/ec9287cb6faa365d.js"],"default"]
+3:I[74878,["/FinanceTracker-public/_next/static/chunks/c866b38e4b929293.js","/FinanceTracker-public/_next/static/chunks/049050efdc3a42c4.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"kpOYCR7jK-AGb646Gm6DA","rsc":["$","$1","c",{"children":[["$","$L2",null,{"type":"INCOME"}],[["$","script","script-0",{"src":"/FinanceTracker-public/_next/static/chunks/5f4bcffa1932892a.js","async":true}],["$","script","script-1",{"src":"/FinanceTracker-public/_next/static/chunks/ec9287cb6faa365d.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null

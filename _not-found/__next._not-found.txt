@@ -1,0 +1,4 @@
+1:"$Sreact.fragment"
+2:I[92747,["/FinanceTracker-public/_next/static/chunks/c866b38e4b929293.js","/FinanceTracker-public/_next/static/chunks/049050efdc3a42c4.js"],"default"]
+3:I[41380,["/FinanceTracker-public/_next/static/chunks/c866b38e4b929293.js","/FinanceTracker-public/_next/static/chunks/049050efdc3a42c4.js"],"default"]
+0:{"buildId":"kpOYCR7jK-AGb646Gm6DA","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
