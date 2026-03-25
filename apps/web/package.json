@@ -1,0 +1,38 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack --port 3000",
+    "build": "next build",
+    "build:gh": "NEXT_PUBLIC_USE_MOCK=true next build",
+    "start": "next start",
+    "lint": "next lint --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-jvectormap/core": "^1.0.4",
+    "@react-jvectormap/world": "^1.1.2",
+    "@repo/ui": "*",
+    "apexcharts": "^5.10.3",
+    "flatpickr": "^4.6.13",
+    "next": "16.0.10",
+    "next-themes": "^0.4.6",
+    "react": "^19.1.0",
+    "react-apexcharts": "^2.1.0",
+    "react-dom": "^19.1.0",
+    "recharts": "^3.7.0"
+  },
+  "devDependencies": {
+    "@repo/api": "*",
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.1",
+    "eslint": "^9.31.0",
+    "typescript": "5.8.2"
+  }
+}

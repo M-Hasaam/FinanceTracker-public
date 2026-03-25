@@ -1,0 +1,696 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "schema-version": "1.10.0",
+    "install": {
+      "bun": {
+        "pkg-path": "bun"
+      },
+      "gum": {
+        "pkg-path": "gum"
+      },
+      "nodejs_20": {
+        "pkg-path": "nodejs_20",
+        "outputs": "all"
+      },
+      "postgresql": {
+        "pkg-path": "postgresql",
+        "outputs": "all"
+      },
+      "redis": {
+        "pkg-path": "redis"
+      }
+    },
+    "hook": {
+      "on-activate": "set -euo pipefail\n\n# ── Load project environment variables ─────────────────────────────────────\nif [ -f \"$FLOX_ENV_PROJECT/.env\" ]; then\n  set -a\n  # shellcheck disable=SC1091\n  source \"$FLOX_ENV_PROJECT/.env\"\n  set +a\nelse\n  echo \"⚠ No .env file found. Copy .env.example to .env and fill in the values.\"\nfi\n\n# ── Flox-managed data paths (use $FLOX_ENV_CACHE, not stored in .env) ──────\nexport PGDATA=\"$FLOX_ENV_CACHE/postgres/data\"\nexport PGHOST=\"/tmp/platform-postgres\"\nexport REDIS_DATA_DIR=\"$FLOX_ENV_CACHE/redis/data\"\n\nmkdir -p \"$PGDATA\" \"$PGHOST\" \"$REDIS_DATA_DIR\"\n\nif [ ! -f \"$PGDATA/PG_VERSION\" ]; then\n  echo \"🔧 Initializing PostgreSQL…\"\n\n  initdb -D \"$PGDATA\" \\\n    --username=\"$PGUSER\" \\\n    --auth=trust \\\n    --no-locale \\\n    --encoding=UTF8 >/dev/null\n\n  cat >> \"$PGDATA/postgresql.conf\" <<EOF\nlisten_addresses = 'localhost'\nunix_socket_directories = '$PGHOST'\nport = $PGPORT\nEOF\n\n  pg_ctl -D \"$PGDATA\" -o \"-k $PGHOST -p $PGPORT\" -w start >/dev/null\n  createdb -U \"$PGUSER\" -h \"$PGHOST\" \"$PGDATABASE\" >/dev/null 2>&1 || true\n  pg_ctl -D \"$PGDATA\" -w stop >/dev/null\nfi\n\nexport DATABASE_URL=\"postgresql://$PGUSER@localhost:$PGPORT/$PGDATABASE\"\nexport REDIS_URL=\"${REDIS_URL:-redis://localhost:$REDIS_PORT}\"\n"
+    },
+    "profile": {
+      "common": "echo \"\"\ngum style --bold \"Finance Tracker — Local Development Environment\"\necho \"\"\n\n# ── First-run hint ──────────────────────────────\ngum style --faint \"  Requires Ubuntu or WSL Ubuntu  •  https://flox.dev/docs/install-flox/\"\ngum style --faint \"  Design: https://www.figma.com/design/DhPCiphvnSKwBA5Zlrogai/Finance-Tracker/\"\ngum style --faint \"  Setup guide: README.md\"\necho \"\"\n\n# ── PostgreSQL status ───────────────────────────\nif pg_isready -q -h \"$PGHOST\" -p \"$PGPORT\" >/dev/null 2>&1; then\n  pg_status=\"● running\"\n  pg_color=\"--foreground 2\"\nelse\n  pg_status=\"● stopped\"\n  pg_color=\"--foreground 1\"\nfi\n\n# ── Redis status ────────────────────────────────\nif redis-cli -p \"$REDIS_PORT\" ping >/dev/null 2>&1; then\n  redis_status=\"● running\"\n  redis_color=\"--foreground 2\"\nelse\n  redis_status=\"● stopped\"\n  redis_color=\"--foreground 1\"\nfi\n\nprintf \"  %-14s\" \"PostgreSQL\"\ngum style $pg_color \"$pg_status\"\nprintf \"  %-14s\" \"Redis\"\ngum style $redis_color \"$redis_status\"\n\necho \"\"\n\ngum style --bold \"Environment\"\nprintf \"  %-14s %s\\n\" \"DATABASE_URL\" \"${DATABASE_URL:-<not set>}\"\nprintf \"  %-14s %s\\n\" \"REDIS_URL\"    \"${REDIS_URL:-<not set>}\"\n\necho \"\"\n\ngum style --bold \"Data\"\necho \"  $FLOX_ENV_CACHE/postgres\"\necho \"  $FLOX_ENV_CACHE/redis\"\n\necho \"\"\n\ngum style --bold \"Services\"\necho \"  start    flox services start\"\necho \"  status   flox services status\"\necho \"  stop     flox services stop\"\necho \"  restart  flox services restart\"\n\necho \"\"\n"
+    },
+    "options": {
+      "systems": [
+        "aarch64-darwin",
+        "aarch64-linux",
+        "x86_64-darwin",
+        "x86_64-linux"
+      ]
+    },
+    "services": {
+      "postgres": {
+        "command": "postgres -D \"$PGDATA\" -k \"$PGHOST\" -p \"$PGPORT\""
+      },
+      "redis": {
+        "command": "redis-server --port \"$REDIS_PORT\" --dir \"$REDIS_DATA_DIR\" --daemonize no"
+      }
+    }
+  },
+  "packages": [
+    {
+      "attr_path": "bun",
+      "broken": false,
+      "derivation": "/nix/store/7inzjjiwjyh56f9aw6a6mad5kd9431fa-bun-1.3.5.drv",
+      "description": "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one",
+      "install_id": "bun",
+      "license": "[ MIT, LGPL-2.1-only ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "bun-1.3.5",
+      "pname": "bun",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:15:53.806623Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.3.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/l95lxycv81h0dd313cznpkqjqyny7fnl-bun-1.3.5"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "bun",
+      "broken": false,
+      "derivation": "/nix/store/jacahvgb7p3nw1wcp10lbhn2296cc2vv-bun-1.3.5.drv",
+      "description": "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one",
+      "install_id": "bun",
+      "license": "[ MIT, LGPL-2.1-only ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "bun-1.3.5",
+      "pname": "bun",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:51:10.829683Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.3.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/64zyjf8y41ddxys3c8fswmfjl7a1dq0r-bun-1.3.5"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "bun",
+      "broken": false,
+      "derivation": "/nix/store/w6hz0bj787vs4lw1scp95pr20asbbwdn-bun-1.3.5.drv",
+      "description": "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one",
+      "install_id": "bun",
+      "license": "[ MIT, LGPL-2.1-only ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "bun-1.3.5",
+      "pname": "bun",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T04:22:52.813503Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.3.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/bigwxxi4a1plg9cssmv7l0llmna0j5gk-bun-1.3.5"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "bun",
+      "broken": false,
+      "derivation": "/nix/store/kfx22rcwlhly4yibk7ynzvcvswn1v77x-bun-1.3.5.drv",
+      "description": "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one",
+      "install_id": "bun",
+      "license": "[ MIT, LGPL-2.1-only ]",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "bun-1.3.5",
+      "pname": "bun",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T04:59:40.679401Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "1.3.5",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/qgwwg2jr2yrksig72y9cmhj65bdcnxhn-bun-1.3.5"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/1zy3fsgkhrcb24yzi92pvcfjnmkfh7sw-gum-0.17.0.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "gum-0.17.0",
+      "pname": "gum",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:15:55.115089Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.17.0",
+      "outputs_to_install": [
+        "out",
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/gx1mhqsn2gkl36vj9nvlcbqdgakfyfjh-gum-0.17.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/0ilc18pj0n6rmjfw8qgs3v8crfv600qj-gum-0.17.0.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "gum-0.17.0",
+      "pname": "gum",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:51:13.226081Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.17.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/km8b8hxkbbc01r80wamr61icrqnpb9ra-gum-0.17.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/f69dkyq1b0j3dd89i5mjj6f0izhi2a5w-gum-0.17.0.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "gum-0.17.0",
+      "pname": "gum",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T04:22:54.138283Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.17.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/xwnx26y0zmikfdz7szfmlkimswyqrp92-gum-0.17.0"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "gum",
+      "broken": false,
+      "derivation": "/nix/store/aziv8z4gbgf10zxyhwagvmhim419kb3x-gum-0.17.0.drv",
+      "description": "Tasty Bubble Gum for your shell",
+      "install_id": "gum",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "gum-0.17.0",
+      "pname": "gum",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T04:59:43.433333Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "0.17.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/ppakdx7303zppgivbdbp5zjck3iz6g7z-gum-0.17.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_20",
+      "broken": false,
+      "derivation": "/nix/store/60v7v9n1wpclp0v11pl73njgd9l9az0j-nodejs-20.19.6.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_20",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "nodejs-20.19.6",
+      "pname": "nodejs_20",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:16:17.208977Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20.19.6",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/2v5451xillx5693ncd73hnky5y9g1kn4-nodejs-20.19.6-dev",
+        "libv8": "/nix/store/halb86z5220y48903xzixz2l5xbri7mv-nodejs-20.19.6-libv8",
+        "out": "/nix/store/4zsj5qcmdgbs33fcgzm6v2h4bv4zz7p4-nodejs-20.19.6"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_20",
+      "broken": false,
+      "derivation": "/nix/store/f5ckfj9xmlkvchj9k7pa04kp24h985kh-nodejs-20.19.6.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_20",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "nodejs-20.19.6",
+      "pname": "nodejs_20",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:51:47.839219Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20.19.6",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/5321ixqgg0vmsyjwhs6gfn3q7kyjh8hf-nodejs-20.19.6-dev",
+        "libv8": "/nix/store/yl32anby0d6hcx0mgq30aqg6hggyalqs-nodejs-20.19.6-libv8",
+        "out": "/nix/store/20pydyi9r2xag15xh4hc04fh3qrm8qgf-nodejs-20.19.6"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_20",
+      "broken": false,
+      "derivation": "/nix/store/z0xc7ip7xdc4h94fhwc0a1lfcldgrbwd-nodejs-20.19.6.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_20",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "nodejs-20.19.6",
+      "pname": "nodejs_20",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T04:23:16.086302Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20.19.6",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/43vxm8baj1gz2cflnc84j8glqp02mp07-nodejs-20.19.6-dev",
+        "libv8": "/nix/store/3infmvi63w1cbm3i0gayqdrmwgvxdcwb-nodejs-20.19.6-libv8",
+        "out": "/nix/store/wnvypvf376m0nrh3krh3mdkv6597lkj0-nodejs-20.19.6"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_20",
+      "broken": false,
+      "derivation": "/nix/store/27xi7nxm826xzy4wyp0d14ydkgzlkaf3-nodejs-20.19.6.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_20",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "nodejs-20.19.6",
+      "pname": "nodejs_20",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T05:00:22.463457Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20.19.6",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/rg3i4b51n02rq3i79fnr80nv67xrlhd9-nodejs-20.19.6-dev",
+        "libv8": "/nix/store/x2v14n3gnin44vjd8yh8i29m9mnr9r05-nodejs-20.19.6-libv8",
+        "out": "/nix/store/5d8li5z6br157w3rckhbnjvq7iwlwj8p-nodejs-20.19.6"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "postgresql",
+      "broken": false,
+      "derivation": "/nix/store/vybp82d16kmmjri8fkifxsj1kjmn13mh-postgresql-17.7.drv",
+      "description": "Powerful, open source object-relational database system",
+      "install_id": "postgresql",
+      "license": "PostgreSQL",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "postgresql-17.7",
+      "pname": "postgresql",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:16:33.861878Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "17.7",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/8kg783mqr60dmyw35anha0d6zlib7lwz-postgresql-17.7-dev",
+        "doc": "/nix/store/xlwzzw07nq8pa1jc8wmhpbxrwa007rni-postgresql-17.7-doc",
+        "jit": "/nix/store/kh8iw4ca7ih8r94jyl6znd8wav2qi4dx-postgresql-17.7-jit",
+        "lib": "/nix/store/m23h5shn5pyaqyrsy2i9k8y0avq3q7fk-postgresql-17.7-lib",
+        "man": "/nix/store/s2gh48ry0g2a7hirrz942vimrpbqyl55-postgresql-17.7-man",
+        "out": "/nix/store/8dqr0i6k6r2cjfgd2r5jyaihbdicqb9c-postgresql-17.7",
+        "plperl": "/nix/store/6lg8fkwvrd17jbcb2l8l7j48s5xc2y99-postgresql-17.7-plperl",
+        "plpython3": "/nix/store/akkb0xddh9x3mvx171x6q15llbq9vvn2-postgresql-17.7-plpython3",
+        "pltcl": "/nix/store/42zznqzjy6gx8j9h1w6hgcb7p87zw0ia-postgresql-17.7-pltcl"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "postgresql",
+      "broken": false,
+      "derivation": "/nix/store/ym4kpig5xacv5gyz1nw91gkj90gfdkxn-postgresql-17.7.drv",
+      "description": "Powerful, open source object-relational database system",
+      "install_id": "postgresql",
+      "license": "PostgreSQL",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "postgresql-17.7",
+      "pname": "postgresql",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:52:06.380211Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "17.7",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/4rzzps7glgm5572iw0braakyn63776am-postgresql-17.7-debug",
+        "dev": "/nix/store/3a498ahpaznkmjimk8kdl5hmhjb7z244-postgresql-17.7-dev",
+        "doc": "/nix/store/gwbd5flzj0zbknf4sp18brrnmqaam97z-postgresql-17.7-doc",
+        "jit": "/nix/store/b4dg21h7i76kcicqllfp1n4ql4fifgs1-postgresql-17.7-jit",
+        "lib": "/nix/store/hysdhdjqsc85k4bw4j5hccl9n98pqrbb-postgresql-17.7-lib",
+        "man": "/nix/store/93w6fqzxm18brzwi094zyxf1hgjk3szw-postgresql-17.7-man",
+        "out": "/nix/store/r3cq6ifd8dndaz2a2c97y4pyv9amdwlb-postgresql-17.7",
+        "plperl": "/nix/store/8f5z95sc7hbd59k083fr5xz5rzasbdjx-postgresql-17.7-plperl",
+        "plpython3": "/nix/store/r7y5jg6y5w9sqj51i8q7zmajy57981hp-postgresql-17.7-plpython3",
+        "pltcl": "/nix/store/v0ggcg3g5n2vcfdidby54i3866kdc7h0-postgresql-17.7-pltcl"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "postgresql",
+      "broken": false,
+      "derivation": "/nix/store/qih1yc5dl904jbzr272gcr4rw0x6rhxk-postgresql-17.7.drv",
+      "description": "Powerful, open source object-relational database system",
+      "install_id": "postgresql",
+      "license": "PostgreSQL",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "postgresql-17.7",
+      "pname": "postgresql",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T04:23:29.564525Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "17.7",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "dev": "/nix/store/x9n4zsrf6w58q5nv4dn1k0sdfh7ij0m1-postgresql-17.7-dev",
+        "doc": "/nix/store/xb6273jkz7z53f5jslp3r05hhk9im7hd-postgresql-17.7-doc",
+        "jit": "/nix/store/88qzagg7g7ml1hanjfbzy7izgg9jn6ms-postgresql-17.7-jit",
+        "lib": "/nix/store/zskadb0lrlr10lvz3km5qix08s5gd6rh-postgresql-17.7-lib",
+        "man": "/nix/store/a7n49b2xgpazzkxazbbz5azbcgqwc5c1-postgresql-17.7-man",
+        "out": "/nix/store/knah3fbhsvy10k6vmq5h10rs8zq5fkq0-postgresql-17.7",
+        "plperl": "/nix/store/sih8xbyl6i42zh5xavs0hnazpvx6wkgc-postgresql-17.7-plperl",
+        "plpython3": "/nix/store/vza2y572p75laww7idjg1bcnc8k7k15z-postgresql-17.7-plpython3",
+        "pltcl": "/nix/store/1p37i9g824zl3kva154jdjngxrrbhh09-postgresql-17.7-pltcl"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "postgresql",
+      "broken": false,
+      "derivation": "/nix/store/090m7y59g31d7vll3g6fgx892s79vi38-postgresql-17.7.drv",
+      "description": "Powerful, open source object-relational database system",
+      "install_id": "postgresql",
+      "license": "PostgreSQL",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "postgresql-17.7",
+      "pname": "postgresql",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T05:00:42.471068Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "17.7",
+      "outputs_to_install": [
+        "man",
+        "out"
+      ],
+      "outputs": {
+        "debug": "/nix/store/87vkh12z8jzqppbf6sv20jbqbjw2lzdb-postgresql-17.7-debug",
+        "dev": "/nix/store/g6c7nb4db5g2ili287v4878cxbfj8y3b-postgresql-17.7-dev",
+        "doc": "/nix/store/ijq8h2qr148yf1lw26804h1iwgkfxldy-postgresql-17.7-doc",
+        "jit": "/nix/store/9hsb8rxdgvq8rsxm4nwqbr78j6aqmxnb-postgresql-17.7-jit",
+        "lib": "/nix/store/yxxxv1a4v1y80mqv68fsa2z0h62h16n7-postgresql-17.7-lib",
+        "man": "/nix/store/ccmlcmir2hg0fvhbw0pkkxy4filijk72-postgresql-17.7-man",
+        "out": "/nix/store/n3aadx4a3200n06gsgy8j3sy7s94yi6y-postgresql-17.7",
+        "plperl": "/nix/store/gfs1k03967qqwa07vb4nngvngfa8c98b-postgresql-17.7-plperl",
+        "plpython3": "/nix/store/y6cmkd3fd2cqkf2nammdjbisargqf4s1-postgresql-17.7-plpython3",
+        "pltcl": "/nix/store/mg08fawdfkjb5hpbs0wp1wjnl3v41gkd-postgresql-17.7-pltcl"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "redis",
+      "broken": false,
+      "derivation": "/nix/store/bb6bdfnnj5a9mw4sd0qgmhlqkv50k4dm-redis-8.2.3.drv",
+      "description": "Open source, advanced key-value store",
+      "install_id": "redis",
+      "license": "AGPL-3.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "redis-8.2.3",
+      "pname": "redis",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:17:19.672771Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "8.2.3",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/b0627zb40m27pi9bfnv8fpisr37iyx7a-redis-8.2.3"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "redis",
+      "broken": false,
+      "derivation": "/nix/store/dk4ddznnawiwfs20cd9yrjxxnc6q2fba-redis-8.2.3.drv",
+      "description": "Open source, advanced key-value store",
+      "install_id": "redis",
+      "license": "AGPL-3.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "redis-8.2.3",
+      "pname": "redis",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T03:53:00.708022Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "8.2.3",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/x0sby0gaqdi9g776grsnbza24wqiq5dx-redis-8.2.3"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "redis",
+      "broken": false,
+      "derivation": "/nix/store/1rsi4a8nz5yi99hrws0r495lxdc7yxc0-redis-8.2.3.drv",
+      "description": "Open source, advanced key-value store",
+      "install_id": "redis",
+      "license": "AGPL-3.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "redis-8.2.3",
+      "pname": "redis",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T04:24:12.173676Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "8.2.3",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/ilvxpg4bhhnllm92s41yydqpq8bfw0sx-redis-8.2.3"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "redis",
+      "broken": false,
+      "derivation": "/nix/store/1saq1rq6ip0vp1lrdq6ibmrm2j51y0yn-redis-8.2.3.drv",
+      "description": "Open source, advanced key-value store",
+      "install_id": "redis",
+      "license": "AGPL-3.0-only",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "name": "redis-8.2.3",
+      "pname": "redis",
+      "rev": "1412caf7bf9e660f2f962917c14b1ea1c3bc695e",
+      "rev_count": 927018,
+      "rev_date": "2026-01-13T12:03:11Z",
+      "scrape_date": "2026-01-16T05:01:39.162260Z",
+      "stabilities": [
+        "staging",
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "8.2.3",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/6iky0asw4a5zmczx74q4svx48512biqg-redis-8.2.3"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    }
+  ]
+}

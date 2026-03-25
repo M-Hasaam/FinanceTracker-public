@@ -1,0 +1,745 @@
+{
+    "totals": {
+        "totalIncome": 1634776,
+        "totalExpense": 1591385,
+        "balance": 43391
+    },
+    "daily": [
+        {
+            "date": "2026-02-12",
+            "income": 4805,
+            "expense": 1129
+        },
+        {
+            "date": "2026-02-13",
+            "income": 0,
+            "expense": 2061
+        },
+        {
+            "date": "2026-02-14",
+            "income": 1699,
+            "expense": 576
+        },
+        {
+            "date": "2026-02-15",
+            "income": 322,
+            "expense": 1258
+        },
+        {
+            "date": "2026-02-16",
+            "income": 0,
+            "expense": 2069
+        },
+        {
+            "date": "2026-02-17",
+            "income": 1240,
+            "expense": 1229
+        },
+        {
+            "date": "2026-02-18",
+            "income": 0,
+            "expense": 2681
+        },
+        {
+            "date": "2026-02-19",
+            "income": 179,
+            "expense": 1164
+        },
+        {
+            "date": "2026-02-20",
+            "income": 10175,
+            "expense": 488
+        },
+        {
+            "date": "2026-02-21",
+            "income": 2362,
+            "expense": 1122
+        },
+        {
+            "date": "2026-02-22",
+            "income": 0,
+            "expense": 2422
+        },
+        {
+            "date": "2026-02-23",
+            "income": 0,
+            "expense": 1082
+        },
+        {
+            "date": "2026-02-24",
+            "income": 5306,
+            "expense": 731
+        },
+        {
+            "date": "2026-02-25",
+            "income": 1511,
+            "expense": 872
+        },
+        {
+            "date": "2026-02-26",
+            "income": 1464,
+            "expense": 0
+        },
+        {
+            "date": "2026-02-27",
+            "income": 0,
+            "expense": 1329
+        },
+        {
+            "date": "2026-02-28",
+            "income": 0,
+            "expense": 2501
+        },
+        {
+            "date": "2026-03-01",
+            "income": 914,
+            "expense": 631
+        },
+        {
+            "date": "2026-03-02",
+            "income": 0,
+            "expense": 1847
+        },
+        {
+            "date": "2026-03-03",
+            "income": 0,
+            "expense": 949
+        },
+        {
+            "date": "2026-03-04",
+            "income": 0,
+            "expense": 530
+        },
+        {
+            "date": "2026-03-05",
+            "income": 2133,
+            "expense": 1086
+        },
+        {
+            "date": "2026-03-06",
+            "income": 1446,
+            "expense": 2044
+        },
+        {
+            "date": "2026-03-07",
+            "income": 187,
+            "expense": 951
+        },
+        {
+            "date": "2026-03-08",
+            "income": 0,
+            "expense": 776
+        },
+        {
+            "date": "2026-03-09",
+            "income": 2610,
+            "expense": 1027
+        },
+        {
+            "date": "2026-03-10",
+            "income": 973,
+            "expense": 1496
+        },
+        {
+            "date": "2026-03-11",
+            "income": 0,
+            "expense": 1679
+        },
+        {
+            "date": "2026-03-12",
+            "income": 4858,
+            "expense": 345
+        },
+        {
+            "date": "2026-03-13",
+            "income": 1600,
+            "expense": 2341
+        }
+    ],
+    "monthly": [
+        {
+            "label": "Apr 2025",
+            "income": 39392,
+            "expense": 44195
+        },
+        {
+            "label": "May 2025",
+            "income": 72131,
+            "expense": 41123
+        },
+        {
+            "label": "Jun 2025",
+            "income": 33057,
+            "expense": 44045
+        },
+        {
+            "label": "Jul 2025",
+            "income": 38312,
+            "expense": 45629
+        },
+        {
+            "label": "Aug 2025",
+            "income": 54418,
+            "expense": 48644
+        },
+        {
+            "label": "Sep 2025",
+            "income": 60382,
+            "expense": 42421
+        },
+        {
+            "label": "Oct 2025",
+            "income": 38779,
+            "expense": 45559
+        },
+        {
+            "label": "Nov 2025",
+            "income": 56352,
+            "expense": 50555
+        },
+        {
+            "label": "Dec 2025",
+            "income": 35846,
+            "expense": 40242
+        },
+        {
+            "label": "Jan 2026",
+            "income": 32816,
+            "expense": 41348
+        },
+        {
+            "label": "Feb 2026",
+            "income": 58853,
+            "expense": 39757
+        },
+        {
+            "label": "Mar 2026",
+            "income": 42667,
+            "expense": 46084
+        }
+    ],
+    "weeklyCategories": [
+        {
+            "category": "Rent/Mortgage",
+            "total": 48268,
+            "percentage": 4.94
+        },
+        {
+            "category": "Miscellaneous",
+            "total": 36898,
+            "percentage": 3.78
+        },
+        {
+            "category": "Education",
+            "total": 8052,
+            "percentage": 0.82
+        },
+        {
+            "category": "Transportation",
+            "total": 77955,
+            "percentage": 7.98
+        },
+        {
+            "category": "Entertainment",
+            "total": 107706,
+            "percentage": 11.03
+        },
+        {
+            "category": "Shopping",
+            "total": 117359,
+            "percentage": 12.02
+        },
+        {
+            "category": "Dining Out",
+            "total": 106925,
+            "percentage": 10.95
+        },
+        {
+            "category": "Travel",
+            "total": 141494,
+            "percentage": 14.49
+        },
+        {
+            "category": "Utilities",
+            "total": 85748,
+            "percentage": 8.78
+        },
+        {
+            "category": "Subscriptions",
+            "total": 1320,
+            "percentage": 0.14
+        },
+        {
+            "category": "Groceries",
+            "total": 126660,
+            "percentage": 12.97
+        },
+        {
+            "category": "Insurance",
+            "total": 42614,
+            "percentage": 4.36
+        },
+        {
+            "category": "Healthcare",
+            "total": 75341,
+            "percentage": 7.72
+        }
+    ],
+    "biweeklyCategories": [
+        {
+            "category": "Rent/Mortgage",
+            "total": 48268,
+            "percentage": 4.9
+        },
+        {
+            "category": "Miscellaneous",
+            "total": 36898,
+            "percentage": 3.74
+        },
+        {
+            "category": "Education",
+            "total": 8052,
+            "percentage": 0.82
+        },
+        {
+            "category": "Transportation",
+            "total": 77955,
+            "percentage": 7.91
+        },
+        {
+            "category": "Entertainment",
+            "total": 108027,
+            "percentage": 10.96
+        },
+        {
+            "category": "Shopping",
+            "total": 117359,
+            "percentage": 11.9
+        },
+        {
+            "category": "Dining Out",
+            "total": 106925,
+            "percentage": 10.85
+        },
+        {
+            "category": "Travel",
+            "total": 142729,
+            "percentage": 14.48
+        },
+        {
+            "category": "Utilities",
+            "total": 88526,
+            "percentage": 8.98
+        },
+        {
+            "category": "Subscriptions",
+            "total": 1320,
+            "percentage": 0.13
+        },
+        {
+            "category": "Groceries",
+            "total": 130610,
+            "percentage": 13.25
+        },
+        {
+            "category": "Healthcare",
+            "total": 75747,
+            "percentage": 7.68
+        },
+        {
+            "category": "Insurance",
+            "total": 43512,
+            "percentage": 4.41
+        }
+    ],
+    "monthlyCategories": [
+        {
+            "category": "Rent/Mortgage",
+            "total": 48268,
+            "percentage": 4.8
+        },
+        {
+            "category": "Miscellaneous",
+            "total": 37628,
+            "percentage": 3.74
+        },
+        {
+            "category": "Education",
+            "total": 8418,
+            "percentage": 0.84
+        },
+        {
+            "category": "Transportation",
+            "total": 78629,
+            "percentage": 7.81
+        },
+        {
+            "category": "Entertainment",
+            "total": 111811,
+            "percentage": 11.11
+        },
+        {
+            "category": "Shopping",
+            "total": 118440,
+            "percentage": 11.77
+        },
+        {
+            "category": "Dining Out",
+            "total": 107787,
+            "percentage": 10.71
+        },
+        {
+            "category": "Travel",
+            "total": 144545,
+            "percentage": 14.37
+        },
+        {
+            "category": "Utilities",
+            "total": 93940,
+            "percentage": 9.34
+        },
+        {
+            "category": "Subscriptions",
+            "total": 1380,
+            "percentage": 0.14
+        },
+        {
+            "category": "Groceries",
+            "total": 133287,
+            "percentage": 13.25
+        },
+        {
+            "category": "Healthcare",
+            "total": 77518,
+            "percentage": 7.7
+        },
+        {
+            "category": "Insurance",
+            "total": 44490,
+            "percentage": 4.42
+        }
+    ],
+    "quarterlyCategories": [
+        {
+            "category": "Rent/Mortgage",
+            "total": 52656,
+            "percentage": 4.85
+        },
+        {
+            "category": "Miscellaneous",
+            "total": 41363,
+            "percentage": 3.81
+        },
+        {
+            "category": "Education",
+            "total": 9150,
+            "percentage": 0.84
+        },
+        {
+            "category": "Transportation",
+            "total": 84084,
+            "percentage": 7.75
+        },
+        {
+            "category": "Entertainment",
+            "total": 117360,
+            "percentage": 10.81
+        },
+        {
+            "category": "Dining Out",
+            "total": 114291,
+            "percentage": 10.53
+        },
+        {
+            "category": "Shopping",
+            "total": 127977,
+            "percentage": 11.79
+        },
+        {
+            "category": "Utilities",
+            "total": 102977,
+            "percentage": 9.49
+        },
+        {
+            "category": "Travel",
+            "total": 156425,
+            "percentage": 14.41
+        },
+        {
+            "category": "Subscriptions",
+            "total": 1500,
+            "percentage": 0.14
+        },
+        {
+            "category": "Groceries",
+            "total": 145867,
+            "percentage": 13.44
+        },
+        {
+            "category": "Insurance",
+            "total": 48935,
+            "percentage": 4.51
+        },
+        {
+            "category": "Healthcare",
+            "total": 82735,
+            "percentage": 7.62
+        }
+    ],
+    "halfYearCategories": [
+        {
+            "category": "Rent/Mortgage",
+            "total": 61432,
+            "percentage": 5.03
+        },
+        {
+            "category": "Miscellaneous",
+            "total": 46272,
+            "percentage": 3.79
+        },
+        {
+            "category": "Education",
+            "total": 9882,
+            "percentage": 0.81
+        },
+        {
+            "category": "Transportation",
+            "total": 92070,
+            "percentage": 7.53
+        },
+        {
+            "category": "Entertainment",
+            "total": 132516,
+            "percentage": 10.84
+        },
+        {
+            "category": "Dining Out",
+            "total": 131806,
+            "percentage": 10.78
+        },
+        {
+            "category": "Shopping",
+            "total": 147647,
+            "percentage": 12.08
+        },
+        {
+            "category": "Travel",
+            "total": 177135,
+            "percentage": 14.49
+        },
+        {
+            "category": "Utilities",
+            "total": 112435,
+            "percentage": 9.2
+        },
+        {
+            "category": "Subscriptions",
+            "total": 1680,
+            "percentage": 0.14
+        },
+        {
+            "category": "Groceries",
+            "total": 166577,
+            "percentage": 13.63
+        },
+        {
+            "category": "Insurance",
+            "total": 53944,
+            "percentage": 4.41
+        },
+        {
+            "category": "Healthcare",
+            "total": 88987,
+            "percentage": 7.28
+        }
+    ],
+    "yearlyCategories": [
+        {
+            "category": "Rent/Mortgage",
+            "total": 74596,
+            "percentage": 5
+        },
+        {
+            "category": "Miscellaneous",
+            "total": 50705,
+            "percentage": 3.4
+        },
+        {
+            "category": "Education",
+            "total": 12078,
+            "percentage": 0.81
+        },
+        {
+            "category": "Transportation",
+            "total": 116058,
+            "percentage": 7.78
+        },
+        {
+            "category": "Entertainment",
+            "total": 164166,
+            "percentage": 11
+        },
+        {
+            "category": "Dining Out",
+            "total": 162518,
+            "percentage": 10.89
+        },
+        {
+            "category": "Shopping",
+            "total": 171834,
+            "percentage": 11.52
+        },
+        {
+            "category": "Travel",
+            "total": 233343,
+            "percentage": 15.64
+        },
+        {
+            "category": "Utilities",
+            "total": 134729,
+            "percentage": 9.03
+        },
+        {
+            "category": "Subscriptions",
+            "total": 2040,
+            "percentage": 0.14
+        },
+        {
+            "category": "Groceries",
+            "total": 195713,
+            "percentage": 13.12
+        },
+        {
+            "category": "Insurance",
+            "total": 65073,
+            "percentage": 4.36
+        },
+        {
+            "category": "Healthcare",
+            "total": 109195,
+            "percentage": 7.32
+        }
+    ],
+    "todayActivities": [
+        {
+            "id": "cmmpawahc000581bckwx9acg0",
+            "amount": "500",
+            "type": "INCOME",
+            "date": "2026-03-13T00:00:00.000Z",
+            "description": null,
+            "userId": "dummy_user_001",
+            "categoryId": "cmmpawah0000481bcgdatdht4",
+            "createdAt": "2026-03-13T19:39:38.638Z",
+            "category": {
+                "id": "cmmpawah0000481bcgdatdht4",
+                "name": "Won Game Tournament",
+                "userId": "dummy_user_001"
+            }
+        },
+        {
+            "id": "cmmpavsxy000381bc4xpne3ga",
+            "amount": "1000",
+            "type": "INCOME",
+            "date": "2026-03-13T00:00:00.000Z",
+            "description": null,
+            "userId": "dummy_user_001",
+            "categoryId": "cmmpavsxe000281bcmdxpouvt",
+            "createdAt": "2026-03-13T19:39:15.908Z",
+            "category": {
+                "id": "cmmpavsxe000281bcmdxpouvt",
+                "name": "Freelance",
+                "userId": "dummy_user_001"
+            }
+        },
+        {
+            "id": "cmmpavkpy000181bcrowziixo",
+            "amount": "100",
+            "type": "INCOME",
+            "date": "2026-03-13T00:00:00.000Z",
+            "description": null,
+            "userId": "dummy_user_001",
+            "categoryId": "cmmpavkp1000081bcu96db15o",
+            "createdAt": "2026-03-13T19:39:05.243Z",
+            "category": {
+                "id": "cmmpavkp1000081bcu96db15o",
+                "name": "Bonus",
+                "userId": "dummy_user_001"
+            }
+        },
+        {
+            "id": "txn_20260313_3_18fe",
+            "amount": "499",
+            "type": "EXPENSE",
+            "date": "2026-03-13T14:07:11.226Z",
+            "description": "Amazon Purchase",
+            "userId": "dummy_user_001",
+            "categoryId": "cat_87140898d7857041c1e7",
+            "createdAt": "2026-03-13T11:39:37.617Z",
+            "category": {
+                "id": "cat_87140898d7857041c1e7",
+                "name": "Shopping",
+                "userId": "dummy_user_001"
+            }
+        },
+        {
+            "id": "txn_20260313_4_61e9",
+            "amount": "450",
+            "type": "EXPENSE",
+            "date": "2026-03-13T14:32:00.369Z",
+            "description": "Gas Station",
+            "userId": "dummy_user_001",
+            "categoryId": "cat_9e943195bc3342b401c2",
+            "createdAt": "2026-03-13T11:39:37.617Z",
+            "category": {
+                "id": "cat_9e943195bc3342b401c2",
+                "name": "Transportation",
+                "userId": "dummy_user_001"
+            }
+        },
+        {
+            "id": "txn_20260313_5_d6e1",
+            "amount": "1090",
+            "type": "EXPENSE",
+            "date": "2026-03-13T14:51:26.706Z",
+            "description": "Grocery Store - Mar 13",
+            "userId": "dummy_user_001",
+            "categoryId": "cat_1fa52d79910cce0ca3c3",
+            "createdAt": "2026-03-13T11:39:37.617Z",
+            "category": {
+                "id": "cat_1fa52d79910cce0ca3c3",
+                "name": "Groceries",
+                "userId": "dummy_user_001"
+            }
+        },
+        {
+            "id": "txn_20260313_1_f591",
+            "amount": "50",
+            "type": "EXPENSE",
+            "date": "2026-03-13T09:18:53.159Z",
+            "description": "Utility Bill - 2026-03",
+            "userId": "dummy_user_001",
+            "categoryId": "cat_e4e898e7feeed0d764ed",
+            "createdAt": "2026-03-13T11:39:37.617Z",
+            "category": {
+                "id": "cat_e4e898e7feeed0d764ed",
+                "name": "Utilities",
+                "userId": "dummy_user_001"
+            }
+        },
+        {
+            "id": "txn_20260313_2_df12",
+            "amount": "252",
+            "type": "EXPENSE",
+            "date": "2026-03-13T12:47:14.160Z",
+            "description": "Travel Booking",
+            "userId": "dummy_user_001",
+            "categoryId": "cat_30394f445fac207a40e6",
+            "createdAt": "2026-03-13T11:39:37.617Z",
+            "category": {
+                "id": "cat_30394f445fac207a40e6",
+                "name": "Travel",
+                "userId": "dummy_user_001"
+            }
+        }
+    ]
+}

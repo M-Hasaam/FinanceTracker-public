@@ -1,0 +1,39 @@
+{
+  "name": "@repo/database",
+  "private": true,
+  "version": "1.0.0",
+  "main": "./dist/client.js",
+  "types": "./src/client.ts",
+  "exports": {
+    ".": {
+      "types": "./src/client.ts",
+      "default": "./dist/client.js"
+    }
+  },
+  "scripts": {
+    "dev": "tsup src/* --watch",
+    "build": "tsup src/*",
+    "generate": "prisma generate",
+    "studio": "prisma studio",
+    "format": "prisma format",
+    "db:migrate:dev": "prisma migrate dev"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.3.0",
+    "@prisma/client": "^7.3.0",
+    "@prisma/client-runtime-utils": "^7.3.0",
+    "dotenv": "^17.2.3",
+    "pg": "^8.17.2"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/bun": "latest",
+    "@types/pg": "^8.16.0",
+    "prisma": "^7.3.0",
+    "tsup": "^8.5.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

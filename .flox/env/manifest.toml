@@ -1,0 +1,128 @@
+schema-version = "1.10.0"
+
+## Packages
+[install]
+bun.pkg-path        = "bun"
+gum.pkg-path        = "gum"
+nodejs_20.pkg-path  = "nodejs_20"
+nodejs_20.outputs = "all"
+postgresql.pkg-path = "postgresql"
+postgresql.outputs = "all"
+redis.pkg-path      = "redis"
+
+## Environment variables — loaded from .env (see .env.example)
+[vars]
+
+## One-time setup (quiet, idempotent)
+[hook]
+on-activate = '''
+set -euo pipefail
+
+# ── Load project environment variables ─────────────────────────────────────
+if [ -f "$FLOX_ENV_PROJECT/.env" ]; then
+  set -a
+  # shellcheck disable=SC1091
+  source "$FLOX_ENV_PROJECT/.env"
+  set +a
+else
+  echo "⚠ No .env file found. Copy .env.example to .env and fill in the values."
+fi
+
+# ── Flox-managed data paths (use $FLOX_ENV_CACHE, not stored in .env) ──────
+export PGDATA="$FLOX_ENV_CACHE/postgres/data"
+export PGHOST="/tmp/platform-postgres"
+export REDIS_DATA_DIR="$FLOX_ENV_CACHE/redis/data"
+
+mkdir -p "$PGDATA" "$PGHOST" "$REDIS_DATA_DIR"
+
+if [ ! -f "$PGDATA/PG_VERSION" ]; then
+  echo "🔧 Initializing PostgreSQL…"
+
+  initdb -D "$PGDATA" \
+    --username="$PGUSER" \
+    --auth=trust \
+    --no-locale \
+    --encoding=UTF8 >/dev/null
+
+  cat >> "$PGDATA/postgresql.conf" <<EOF
+listen_addresses = 'localhost'
+unix_socket_directories = '$PGHOST'
+port = $PGPORT
+EOF
+
+  pg_ctl -D "$PGDATA" -o "-k $PGHOST -p $PGPORT" -w start >/dev/null
+  createdb -U "$PGUSER" -h "$PGHOST" "$PGDATABASE" >/dev/null 2>&1 || true
+  pg_ctl -D "$PGDATA" -w stop >/dev/null
+fi
+
+export DATABASE_URL="postgresql://$PGUSER@localhost:$PGPORT/$PGDATABASE"
+export REDIS_URL="${REDIS_URL:-redis://localhost:$REDIS_PORT}"
+'''
+
+## UI / Status
+[profile]
+common = '''
+echo ""
+gum style --bold "Finance Tracker — Local Development Environment"
+echo ""
+
+# ── First-run hint ──────────────────────────────
+gum style --faint "  Requires Ubuntu or WSL Ubuntu  •  https://flox.dev/docs/install-flox/"
+gum style --faint "  Design: https://www.figma.com/design/DhPCiphvnSKwBA5Zlrogai/Finance-Tracker/"
+gum style --faint "  Setup guide: README.md"
+echo ""
+
+# ── PostgreSQL status ───────────────────────────
+if pg_isready -q -h "$PGHOST" -p "$PGPORT" >/dev/null 2>&1; then
+  pg_status="● running"
+  pg_color="--foreground 2"
+else
+  pg_status="● stopped"
+  pg_color="--foreground 1"
+fi
+
+# ── Redis status ────────────────────────────────
+if redis-cli -p "$REDIS_PORT" ping >/dev/null 2>&1; then
+  redis_status="● running"
+  redis_color="--foreground 2"
+else
+  redis_status="● stopped"
+  redis_color="--foreground 1"
+fi
+
+printf "  %-14s" "PostgreSQL"
+gum style $pg_color "$pg_status"
+printf "  %-14s" "Redis"
+gum style $redis_color "$redis_status"
+
+echo ""
+
+gum style --bold "Environment"
+printf "  %-14s %s\n" "DATABASE_URL" "${DATABASE_URL:-<not set>}"
+printf "  %-14s %s\n" "REDIS_URL"    "${REDIS_URL:-<not set>}"
+
+echo ""
+
+gum style --bold "Data"
+echo "  $FLOX_ENV_CACHE/postgres"
+echo "  $FLOX_ENV_CACHE/redis"
+
+echo ""
+
+gum style --bold "Services"
+echo "  start    flox services start"
+echo "  status   flox services status"
+echo "  stop     flox services stop"
+echo "  restart  flox services restart"
+
+echo ""
+'''
+
+## Services
+[services]
+postgres.command = "postgres -D \"$PGDATA\" -k \"$PGHOST\" -p \"$PGPORT\""
+redis.command    = "redis-server --port \"$REDIS_PORT\" --dir \"$REDIS_DATA_DIR\" --daemonize no"
+
+## Platforms
+[options]
+systems = ["aarch64-darwin", "aarch64-linux", "x86_64-darwin", "x86_64-linux"]

@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "imgildev.vscode-nestjs-snippets-extension",
+    "mikestead.dotenv",
+    "pkief.material-icon-theme",
+    "mhutchie.git-graph",
+    "prisma.prisma"
+  ]
+}

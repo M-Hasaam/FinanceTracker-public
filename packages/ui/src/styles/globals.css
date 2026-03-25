@@ -1,0 +1,196 @@
+@import 'tailwindcss';
+@source "../../../apps/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ================================
+   Dark Theme
+================================== */
+.dark {
+  /* Typography */
+  --font-sans: "Roboto", sans-serif;
+
+  /* Backgrounds */
+  --background: #141332;       /* main background */
+  --foreground: #ffffff;       /* text color */
+
+  --card: #1D1D41;             /* card background */
+  --card-foreground: #ffffff;
+
+  --popover: #1D1D41;
+  --popover-foreground: #ffffff;
+
+  /* Primary / Brand Purple */
+  --primary: #5A51D4;
+  --primary-foreground: #ffffff;
+
+  /* Secondary / Light Purple */
+  --secondary: #6359E9;
+  --secondary-foreground: #ffffff;
+
+  /* Accent / Blue */
+  --accent: #64CFF6;
+  --accent-foreground: #141332;
+
+  /* Success / Green */
+  --success: #16A34A;
+  --success-alt: #3FA796;
+
+  /* Error / Red */
+  --destructive: #DC2626;
+  --danger-alt: #C93232;
+  --destructive-foreground: #ffffff;
+  --link: #009dff;
+
+  /* Warning */
+  --warning: #3FA796;
+  --warning-foreground: #ffffff;
+
+  /* Borders & Rings */
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #6359E9;
+
+  /* Radius */
+  --radius: 0.625rem;
+
+  /* Sidebar */
+  --sidebar: #1D1D41;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #5A51D4;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #64CFF6;
+  --sidebar-accent-foreground: #141332;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #6359E9;
+
+  /* Chart Colors */
+  --income: #22c55e;    /* Fresh green */
+  --expenses: #ef4444;  /* Clean red */
+
+  --income-2: #rgb(37, 39, 109);  /* Fresh green */
+  --expenses-2: #3e20e4;  /* Clean red */
+
+  --chart-primary: #4A3AFF;    /* Dark purple for largest percentage */
+  --chart-light: #E5EAFC; 
+
+  /* Muted / Surface */
+  --muted: rgba(255, 255, 255, 0.08);
+  --muted-foreground: rgba(255, 255, 255, 0.5);
+  --surface: #1a1840;            /* slightly darker than card; sidebar/modals */
+  --card-gradient-end: #252550; /* TotalCard gradient end */
+}
+
+/* Light theme variables (if you need them) */
+:root {
+  --income: #22c55e;    /* Fresh green */
+  --expenses: #ef4444;  /* Clean red */
+
+   --income-2: #64CFF6 ;  /* Fresh green */
+  --expenses-2: #6359E9 ; /* Clean red */
+
+  --chart-primary: #4A3AFF;    /* Dark purple for largest percentage */
+  --chart-light: #E5EAFC; 
+
+  --muted: rgba(0, 0, 0, 0.08);
+  --muted-foreground: rgba(178, 178, 178, 0.85);
+  --surface: #f1f5f9;
+  --card-gradient-end: #252550;
+  --card: #1D1D41;
+  --background: #141332;
+  --foreground: #ffffff;
+  --success-alt: #3FA796;
+  --danger-alt: #C93232;
+  --link: #009dff;
+}
+
+/* ================================
+   Tailwind Mapping
+================================== */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-success-alt: var(--success-alt);
+  --color-destructive: var(--destructive);
+  --color-danger-alt: var(--danger-alt);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  /* Add chart colors to Tailwind theme */
+  --color-income: var(--income);
+  --color-expenses: var(--expenses);
+
+  --color-income-2: var(--income-2);
+  --color-expenses-2: var(--expenses-2);
+
+  --color-chart-primary: var(--chart-primary);
+  --color-chart-light: var(--chart-light);
+
+  --color-success-alt: var(--success-alt);
+  --color-danger-alt: var(--danger-alt);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-surface: var(--surface);
+  --color-card-gradient-end: var(--card-gradient-end);
+  --color-link: var(--link);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@theme {
+  --font-outfit: Outfit, sans-serif;
+
+  /* Custom breakpoints */
+  --breakpoint-*: initial;
+  --breakpoint-2xsm: 375px;
+  --breakpoint-xsm: 425px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 2000px;
+}
+/* ================================
+   Base Styles
+================================== */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}

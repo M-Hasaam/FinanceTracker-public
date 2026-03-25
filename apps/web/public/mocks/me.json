@@ -1,0 +1,9 @@
+{
+    "user": {
+        "id": "dummy_user_001",
+        "email": "test@example.com",
+        "name": "Test User",
+        "picture": null,
+        "provider": "EMAIL"
+    }
+}
